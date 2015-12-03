@@ -70,22 +70,36 @@ function Teocli(ws) {
  * @param {type} callback Result callback function
  * @returns {undefined}
  */
-Teocli.prototype.auth = function (to, method, url, data, headers, timeout, callback) {
+Teocli.prototype.auth = function (to, method, url, data, headers, timeout, 
+                            callback) {
     
-    var onauth_save = this.onauth;
+    var self = this;
     
-    this.onauth = function(err, response) {
-        this.onauth = onauth_save;
-        callback(err, response);
-    };
-    
-    this.ws.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' + method + '", "url": "' + url + '", "data": "' + data + '", "headers": "' + headers + '" } }');
-    
-    setTimeout(function() {
+    if(self.onauth === undefined) {
         
-        callback(new Error('TIMEOUT'));
+        self.onauth = function(err, response) {
+            self.onauth = undefined; 
+            callback(err, response);
+        };
+
+        this.ws.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' + 
+                method + '", "url": "' + url + '", "data": "' + data + 
+                '", "headers": "' + headers + '" } }');
+
+        setTimeout(function() {
+
+            // console.log("Auth timeout tick");
+            if (typeof self.onauth === 'function') {
+                self.onauth(new Error('TIMEOUT'));
+            }
+
+        }, timeout);                
+    }
+    
+    else {
         
-    }, timeout);
+        self.onauth(new Error('AUTH_BUSY'));
+    }
 };
 
 /**
@@ -212,7 +226,6 @@ Teocli.prototype.process = function (data) {
         else if (p.cmd === 66) {
             // Calculate triptime command
             p.data.time = teocli.triptime(p.data.time);
-            //console.log("Teocli.process: Triptime " + p.data.time + " ms");
             // Exequte echo callback
             if (typeof this.onecho === 'function') {
                 this.onecho(null, p);
