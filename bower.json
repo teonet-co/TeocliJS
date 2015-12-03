@@ -1,0 +1,24 @@
+{
+  "name": "TeocliJS",
+  "description": "Javascript (or node) Teonet client",
+  "main": "teocli.js",
+  "authors": [
+    "Kirill Scherba <kirill@scherba.ru> (http://gitlab.ksproject.org/)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "teonet",
+    "network"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "homepage": "https://gitlab.ksproject.org/teonet/TeocliJS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
