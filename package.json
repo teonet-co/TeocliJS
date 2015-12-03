@@ -1,0 +1,22 @@
+{
+  "name": "TeocliJS",
+  "version": "0.0.1",
+  "description": "Javascript (or node) Teonet client",
+  "main": "teocli.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.ksproject.org/teonet/TeocliJS.git"
+  },
+  "keywords": [
+    "teonet",
+    "network"
+  ],
+  "author": "Kirill Scherba <kirill@scherba.ru> (http://gitlab.ksproject.org/)",
+  "license": "MIT"
+}
