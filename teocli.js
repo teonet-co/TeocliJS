@@ -46,7 +46,7 @@ function Teocli(ws) {
     };
     teocli.ws.onclose = function (ev) {
         if (typeof teocli.onerror === 'function') {
-            teocli.onerror(ev);
+            teocli.onclose(ev);
         }
     };
     teocli.ws.onmessage = function (ev) {      
