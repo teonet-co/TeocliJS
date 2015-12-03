@@ -1,5 +1,5 @@
 {
-  "name": "TeocliJS",
+  "name": "teocli",
   "description": "Javascript (or node) Teonet client",
   "main": "teocli.js",
   "authors": [

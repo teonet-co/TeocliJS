@@ -1,5 +1,5 @@
 {
-  "name": "TeocliJS",
+  "name": "teocli",
   "version": "0.0.1",
   "description": "Javascript (or node) Teonet client",
   "main": "teocli.js",
