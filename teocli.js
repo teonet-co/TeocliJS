@@ -79,12 +79,12 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
         
         self.onauth = function(err, response) {
             self.onauth = undefined; 
-            callback(err, response);
+            callback(err, response.data);
         };
 
         this.ws.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' + 
-                method + '", "url": "' + url + '", "data": "' + data + 
-                '", "headers": "' + headers + '" } }');
+                method + '", "url": "' + url + '", "data": ' + data + 
+                ', "headers": "' + headers + '" } }');
 
         setTimeout(function() {
 
