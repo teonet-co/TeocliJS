@@ -75,11 +75,14 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
     
     var self = this;
     
+    var TIMEOUT = "TIMEOUT";
+    var AUTH_BUSY = "AUTH BUSY";
+    
     if(self.onauth === undefined) {
         
         self.onauth = function(err, response) {
             self.onauth = undefined; 
-            callback(err, response.data);
+            callback(err, response ? response.data : undefined);
         };
 
         this.ws.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' + 
@@ -88,9 +91,9 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
 
         setTimeout(function() {
 
-            // console.log("Auth timeout tick");
+            // Send timeout error
             if (typeof self.onauth === 'function') {
-                self.onauth(new Error('TIMEOUT'));
+                self.onauth(new Error(TIMEOUT), { data: { status: 400, data: TIMEOUT } } );
             }
 
         }, timeout);                
@@ -98,7 +101,10 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
     
     else {
         
-        self.onauth(new Error('AUTH_BUSY'));
+        // Send authentication busy error
+        if (typeof self.onauth === 'function') {
+            self.onauth(new Error(AUTH_BUSY), { data: { status: 400, data: AUTH_BUSY } });
+        }
     }
 };
 
