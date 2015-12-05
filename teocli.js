@@ -271,6 +271,8 @@ Teocli.prototype.process = function (data) {
     return processed;
 };
 
+/* global module */
+
 // Check NodeJS module exists
 if(typeof module !== 'undefined' && module.exports) {
     module.exports = Teocli;
