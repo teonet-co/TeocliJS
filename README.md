@@ -2,5 +2,10 @@
 
 ## Install with bower:  
 ```
-bower install TeocliJS
+bower install teocli
+```
+
+## Install with npm:  
+```
+npm install teocli
 ```
