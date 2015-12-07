@@ -23,7 +23,7 @@
  */
 
 /**
- * Teonet client class ver 0.0.1
+ * Teonet client class ver 0.0.2
  *
  * @param {Object} ws Websocket connection
  * @constructor
@@ -49,7 +49,7 @@ function Teocli(ws) {
             teocli.onclose(ev);
         }
     };
-    teocli.ws.onmessage = function (ev) {      
+    teocli.ws.onmessage = function (ev) {
         if(!teocli.process(ev.data)) {
             if (typeof teocli.onmessage === 'function') {
                 teocli.onmessage(ev);
@@ -72,14 +72,14 @@ function Teocli(ws) {
  */
 Teocli.prototype.auth = function (to, method, url, data, headers, timeout, 
                             callback) {
-    
+
     var self = this;
-    
+
     var TIMEOUT = "TIMEOUT";
     var AUTH_BUSY = "AUTH BUSY";
-    
+
     if(self.onauth === undefined) {
-        
+
         self.onauth = function(err, response) {
             self.onauth = undefined; 
             callback(err, response ? response.data : undefined);
@@ -96,11 +96,11 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
                 self.onauth(new Error(TIMEOUT), { data: { status: 400, data: TIMEOUT } } );
             }
 
-        }, timeout);                
+        }, timeout);
     }
-    
+
     else {
-        
+
         // Send authentication busy error
         if (typeof self.onauth === 'function') {
             self.onauth(new Error(AUTH_BUSY), { data: { status: 400, data: AUTH_BUSY } });
