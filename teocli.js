@@ -146,13 +146,33 @@ Teocli.prototype.peers = function (to) {
 };
 
 /**
- * Send peers answer request command to peer
+ * Send peers answer command to peer
  *
  * @param {type} to Peer name to send to
  * @returns {undefined}
  */
 Teocli.prototype.peersAnswer = function (to) {
     this.send('{ "cmd": 73, "to": "' + to + '", "data": "" }');
+};
+
+/**
+ * Send clients request command to peer
+ *
+ * @param {type} to Peer name to send to
+ * @returns {undefined}
+ */
+Teocli.prototype.clients = function (to) {
+    this.send('{ "cmd": 79, "to": "' + to + '", "data": "" }');
+};
+
+/**
+ * Send clients answer command to peer
+ *
+ * @param {type} to Peer name to send to
+ * @returns {undefined}
+ */
+Teocli.prototype.clientsAnswer = function (to) {
+    this.send('{ "cmd": 80, "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -280,6 +300,23 @@ Teocli.prototype.process = function (data) {
             }            
             processed = 1;
         }
+        
+        // Got CLIENTS command
+        else if (p.cmd === 79) {
+            // Send clients answer command
+            teocli.clientsAnswer(p.from);
+            processed = 1;
+        }
+
+        // Got CLIENTS answer command
+        else if (p.cmd === 80) {
+            // Exequte clients callback
+            if (typeof this.onclients === 'function') {
+                this.onclients(null, p);
+            }
+            processed = 1;
+        }
+
 
         // Got some other command
         else {
