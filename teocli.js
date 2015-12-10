@@ -179,7 +179,7 @@ Teocli.prototype.echo = function (to, msg) {
  * @returns {undefined}
  */
 Teocli.prototype.echoAnswer = function (to, obj) {
-    this.send('{ "cmd": 66, "to": "' + to + '", "data": ' + obj + ' }');
+    this.send('{ "cmd": 66, "to": "' + to + '", "data": ' + JSON.stringify(obj) + ' }');
 };
 
 /**
