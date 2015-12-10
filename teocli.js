@@ -59,6 +59,23 @@ function Teocli(ws) {
 }
 
 /**
+ * Send data to the webSocket
+ *
+ * @param data
+ * @return {boolean} result
+ */
+Teocli.prototype.send = function (data) {
+
+    if (this.ws.readyState === 1) { // 1 - connection is open
+        this.ws.send(data);
+        return true;
+    }
+
+    return false;
+};
+
+
+/**
  * Send authentication request to peer (or L0 server)
  * 
  * @param {string} to Peer name or L0 webserver if empty string
@@ -85,7 +102,7 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
             callback(err, response ? response.data : undefined);
         };
 
-        this.ws.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' + 
+        this.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' +
                 method + '", "url": "' + url + '", "data": ' + data + 
                 ', "headers": "' + headers + '" } }');
 
@@ -115,7 +132,7 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
  * @returns {undefined}
  */
 Teocli.prototype.login = function (client_name) {
-    this.ws.send('{ "cmd": 0, "to": "", "data": "' + client_name + '" }');
+    this.send('{ "cmd": 0, "to": "", "data": "' + client_name + '" }');
 };
 
 /**
@@ -125,7 +142,7 @@ Teocli.prototype.login = function (client_name) {
  * @returns {undefined}
  */
 Teocli.prototype.peers = function (to) {
-    this.ws.send('{ "cmd": 72, "to": "' + to + '", "data": "" }');
+    this.send('{ "cmd": 72, "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -135,7 +152,7 @@ Teocli.prototype.peers = function (to) {
  * @returns {undefined}
  */
 Teocli.prototype.peersAnswer = function (to) {
-    this.ws.send('{ "cmd": 73, "to": "' + to + '", "data": "" }');
+    this.send('{ "cmd": 73, "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -150,7 +167,7 @@ Teocli.prototype.echo = function (to, msg) {
     var d = new Date();
     var n = d.getTime();
     var msg_is_obj = this.IsJsonString(msg) ? "" : '"';
-    this.ws.send('{ "cmd": 65, "to": "' + to + '", "data": { "msg": ' + 
+    this.send('{ "cmd": 65, "to": "' + to + '", "data": { "msg": ' +
             msg_is_obj + msg + msg_is_obj + ', "time": ' + n + ' } }');
 };
 
@@ -162,7 +179,7 @@ Teocli.prototype.echo = function (to, msg) {
  * @returns {undefined}
  */
 Teocli.prototype.echoAnswer = function (to, obj) {
-    this.ws.send('{ "cmd": 66, "to": "' + to + '", "data": ' + obj + ' }');
+    this.send('{ "cmd": 66, "to": "' + to + '", "data": ' + obj + ' }');
 };
 
 /**
