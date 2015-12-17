@@ -50,7 +50,7 @@ function Teocli(ws) {
         }
     };
     teocli.ws.onmessage = function (ev) {
-        if(!teocli.process(ev.data)) {
+        if (!teocli.process(ev.data)) {
             if (typeof teocli.onmessage === 'function') {
                 teocli.onmessage(ev);
             }
@@ -61,12 +61,16 @@ function Teocli(ws) {
 /**
  * Send data to the webSocket
  *
- * @param data
+ * @param {String|Object} data
  * @return {boolean} result
  */
 Teocli.prototype.send = function (data) {
 
     if (this.ws.readyState === 1) { // 1 - connection is open
+        if (typeof data === "object") {
+            data = JSON.stringify(data);
+        }
+
         this.ws.send(data);
         return true;
     }
@@ -77,7 +81,7 @@ Teocli.prototype.send = function (data) {
 
 /**
  * Send authentication request to peer (or L0 server)
- * 
+ *
  * @param {string} to Peer name or L0 webserver if empty string
  * @param {string} method HTTP request method 'POST' or 'GET'
  * @param {string} url Part of authentication url: register-client, register, login, refresh
@@ -87,30 +91,29 @@ Teocli.prototype.send = function (data) {
  * @param {type} callback Result callback function
  * @returns {undefined}
  */
-Teocli.prototype.auth = function (to, method, url, data, headers, timeout, 
-                            callback) {
+Teocli.prototype.auth = function (to, method, url, data, headers, timeout, callback) {
 
     var self = this;
 
     var TIMEOUT = "TIMEOUT";
     var AUTH_BUSY = "AUTH BUSY";
 
-    if(self.onauth === undefined) {
+    if (self.onauth === undefined) {
 
-        self.onauth = function(err, response) {
-            self.onauth = undefined; 
+        self.onauth = function (err, response) {
+            self.onauth = undefined;
             callback(err, response ? response.data : undefined);
         };
 
         this.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' +
-                method + '", "url": "' + url + '", "data": ' + data + 
-                ', "headers": "' + headers + '" } }');
+            method + '", "url": "' + url + '", "data": ' + data +
+            ', "headers": "' + headers + '" } }');
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             // Send timeout error
             if (typeof self.onauth === 'function') {
-                self.onauth(new Error(TIMEOUT), { data: { status: 400, data: TIMEOUT } } );
+                self.onauth(new Error(TIMEOUT), {data: {status: 400, data: TIMEOUT}});
             }
 
         }, timeout);
@@ -120,7 +123,7 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout,
 
         // Send authentication busy error
         if (typeof self.onauth === 'function') {
-            self.onauth(new Error(AUTH_BUSY), { data: { status: 400, data: AUTH_BUSY } });
+            self.onauth(new Error(AUTH_BUSY), {data: {status: 400, data: AUTH_BUSY}});
         }
     }
 };
@@ -188,7 +191,7 @@ Teocli.prototype.echo = function (to, msg) {
     var n = d.getTime();
     var msg_is_obj = this.IsJsonString(msg) ? "" : '"';
     this.send('{ "cmd": 65, "to": "' + to + '", "data": { "msg": ' +
-            msg_is_obj + msg + msg_is_obj + ', "time": ' + n + ' } }');
+        msg_is_obj + msg + msg_is_obj + ', "time": ' + n + ' } }');
 };
 
 /**
@@ -291,16 +294,16 @@ Teocli.prototype.process = function (data) {
             }
             processed = 1;
         }
-        
+
         // Got AUTH answer command
         else if (p.cmd === 78) {
             // Exequte auth callback
             if (typeof this.onauth === 'function') {
                 this.onauth(null, p);
-            }            
+            }
             processed = 1;
         }
-        
+
         // Got CLIENTS command
         else if (p.cmd === 79) {
             // Send clients answer command
@@ -334,6 +337,6 @@ Teocli.prototype.process = function (data) {
 /* global module */
 
 // Check NodeJS module exists
-if(typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
     module.exports = Teocli;
 }
