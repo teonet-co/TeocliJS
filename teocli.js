@@ -59,6 +59,24 @@ function Teocli(ws) {
 }
 
 /**
+ * Teonet commands enum
+ */
+Teocli.prototype.CMD = {
+    
+    NONE: 0,
+    ECHO: 65,
+    ECHO_ANSWER: 66,
+    PEERS: 72,
+    PEERS_ANSWER: 73,
+    AUTH: 77,
+    AUTH_ANSWER: 78,
+    L0_CLIENTS: 79,
+    L0_CLIENTS_ANSWER: 80,
+    HOST_INFO_ANSWER: 91
+    
+};
+
+/**
  * Send data to the webSocket
  *
  * @param {String|Object} data
@@ -105,7 +123,7 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout, callb
             callback(err, response ? response.data : undefined);
         };
 
-        this.send('{ "cmd": 77, "to": "' + to + '", "data": { "method": "' +
+        this.send('{ "cmd": ' + this.CMD.AUTH + ', "to": "' + to + '", "data": { "method": "' +
             method + '", "url": "' + url + '", "data": ' + data +
             ', "headers": "' + headers + '" } }');
 
@@ -135,7 +153,7 @@ Teocli.prototype.auth = function (to, method, url, data, headers, timeout, callb
  * @returns {undefined}
  */
 Teocli.prototype.login = function (client_name) {
-    this.send('{ "cmd": 0, "to": "", "data": "' + client_name + '" }');
+    this.send('{ "cmd": ' + this.CMD.NONE + ', "to": "", "data": "' + client_name + '" }');
 };
 
 /**
@@ -145,7 +163,7 @@ Teocli.prototype.login = function (client_name) {
  * @returns {undefined}
  */
 Teocli.prototype.peers = function (to) {
-    this.send('{ "cmd": 72, "to": "' + to + '", "data": "" }');
+    this.send('{ "cmd": ' + this.CMD.PEERS + ', "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -155,7 +173,7 @@ Teocli.prototype.peers = function (to) {
  * @returns {undefined}
  */
 Teocli.prototype.peersAnswer = function (to) {
-    this.send('{ "cmd": 73, "to": "' + to + '", "data": "" }');
+    this.send('{ "cmd": ' + this.CMD.PEERS_ANSWER + ', "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -164,8 +182,8 @@ Teocli.prototype.peersAnswer = function (to) {
  * @param {type} to Peer name to send to
  * @returns {undefined}
  */
-Teocli.prototype.clients = function (to) {
-    this.send('{ "cmd": 79, "to": "' + to + '", "data": "" }');
+Teocli.prototype.clients = function (to) {    
+    this.send('{ "cmd": ' + this.CMD.L0_CLIENTS + ', "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -175,7 +193,7 @@ Teocli.prototype.clients = function (to) {
  * @returns {undefined}
  */
 Teocli.prototype.clientsAnswer = function (to) {
-    this.send('{ "cmd": 80, "to": "' + to + '", "data": "" }');
+    this.send('{ "cmd": ' + this.CMD.L0_CLIENTS_ANSWER + ', "to": "' + to + '", "data": "" }');
 };
 
 /**
@@ -190,7 +208,7 @@ Teocli.prototype.echo = function (to, msg) {
     var d = new Date();
     var n = d.getTime();
     var msg_is_obj = this.IsJsonString(msg) ? "" : '"';
-    this.send('{ "cmd": 65, "to": "' + to + '", "data": { "msg": ' +
+    this.send('{ "cmd": ' + this.CMD.ECHO + ', "to": "' + to + '", "data": { "msg": ' +
         msg_is_obj + msg + msg_is_obj + ', "time": ' + n + ' } }');
 };
 
@@ -202,7 +220,7 @@ Teocli.prototype.echo = function (to, msg) {
  * @returns {undefined}
  */
 Teocli.prototype.echoAnswer = function (to, obj) {
-    this.send('{ "cmd": 66, "to": "' + to + '", "data": ' + JSON.stringify(obj) + ' }');
+    this.send('{ "cmd": ' + this.CMD.ECHO_ANSWER + ', "to": "' + to + '", "data": ' + JSON.stringify(obj) + ' }');
 };
 
 /**
@@ -262,14 +280,14 @@ Teocli.prototype.process = function (data) {
         // Check received commands
         //
         // Got ECHO command
-        if (p.cmd === 65) {
+        if (p.cmd === this.CMD.ECHO) {
             // Send echo answer
             teocli.echoAnswer(p.from, p.data);
             processed = 1;
         }
 
         // Got ECHO answer command
-        else if (p.cmd === 66) {
+        else if (p.cmd === this.CMD.ECHO_ANSWER) {
             // Calculate triptime command
             p.data.time = teocli.triptime(p.data.time);
             // Exequte echo callback
@@ -280,14 +298,14 @@ Teocli.prototype.process = function (data) {
         }
 
         // Got PEERS command
-        else if (p.cmd === 72) {
+        else if (p.cmd === this.CMD.PEERS) {
             // Send peers answer command
             teocli.peersAnswer(p.from);
             processed = 1;
         }
 
         // Got PEERS answer command
-        else if (p.cmd === 73) {
+        else if (p.cmd === this.CMD.PEERS_ANSWER) {
             // Exequte peers callback
             if (typeof this.onpeers === 'function') {
                 this.onpeers(null, p);
@@ -296,7 +314,7 @@ Teocli.prototype.process = function (data) {
         }
 
         // Got AUTH answer command
-        else if (p.cmd === 78) {
+        else if (p.cmd === this.CMD.AUTH_ANSWER) {
             // Exequte auth callback
             if (typeof this.onauth === 'function') {
                 this.onauth(null, p);
@@ -305,14 +323,14 @@ Teocli.prototype.process = function (data) {
         }
 
         // Got CLIENTS command
-        else if (p.cmd === 79) {
+        else if (p.cmd === this.CMD.L0_CLIENTS) {
             // Send clients answer command
             teocli.clientsAnswer(p.from);
             processed = 1;
         }
 
         // Got CLIENTS answer command
-        else if (p.cmd === 80) {
+        else if (p.cmd === this.CMD.L0_CLIENTS_ANSWER) {
             // Exequte clients callback
             if (typeof this.onclients === 'function') {
                 this.onclients(null, p);
