@@ -63,17 +63,31 @@ function Teocli(ws) {
  */
 Teocli.prototype.CMD = {
     
-    NONE: 0,
-    ECHO: 65,
-    ECHO_ANSWER: 66,
-    PEERS: 72,
-    PEERS_ANSWER: 73,
-    AUTH: 77,
-    AUTH_ANSWER: 78,
-    L0_CLIENTS: 79,
-    L0_CLIENTS_ANSWER: 80,
-    HOST_INFO_ANSWER: 91
+    NONE: 0,                ///< #0 Common system command (client used in when send login command)
+    ECHO: 65,               ///< #65 Echo test message: auto replay test message command
+    ECHO_ANSWER: 66,        ///< #66 Answer to auto replay message command
+    PEERS: 72,              ///< #72 Get peers
+    PEERS_ANSWER: 73,       ///< #73 Get peers answer
+    AUTH: 77,               ///< #77 Auth command
+    AUTH_ANSWER: 78,        ///< #78 Auth answer command
+    L0_CLIENTS: 79,         ///< #79 Request clients list
+    L0_CLIENTS_ANSWER: 80,  ///< #80 Clients list
     
+    SUBSCRIBE:81,           ///< #81 Subscribe to event
+    UNSUBSCRIBE:82,         ///< #82 UnSubscribe from event
+    SUBSCRIBE_ANSWER:83,    ///< #83 Subscribe answer
+    L0_CLIENTS_N:84,        ///< #84 Request clients number
+    L0_CLIENTS_N_ANSWER:85, ///< #85 Clients number
+    GET_NUM_PEERS:86,       ///< #86 Request number of peers
+    GET_NUM_PEERS_ANSWER:87,///< #87 Number of peers answer
+    L0_STAT:88,             ///< #88 Get LO server statistic request
+    L0_STAT_ANSWER:89,      ///< #89 LO server statistic 
+    HOST_INFO:90,           ///< #90 Request host info
+    HOST_INFO_ANSWER: 91,   ///< #91 Host info amswer
+    
+    USER: 129,              ///< #129..191 User command
+        
+    LAST:255                ///< #255 Last command Reserved for future use
 };
 
 /**
