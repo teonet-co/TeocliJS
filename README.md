@@ -1,4 +1,4 @@
-# Teonet javascript client
+# Teonet javascript client Module
 
 ## Install with bower:  
 ```
