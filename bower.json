@@ -16,6 +16,7 @@
   "homepage": "https://gitlab.ksproject.org/teonet/TeocliJS",
   "ignore": [
     "**/.*",
+    "nbproject",
     "node_modules",
     "bower_components",
     "test",
