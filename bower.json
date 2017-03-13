@@ -1,10 +1,14 @@
 {
   "name": "teocli",
+  "version": "0.0.12",
   "description": "Javascript (or node) Teonet client",
   "main": "teocli.js",
   "authors": [
     "Kirill Scherba <kirill@scherba.ru> (http://gitlab.ksproject.org/)"
   ],
+  "dependencies": {
+    "crypto-js": "^3.1.6"
+  },
   "license": "MIT",
   "keywords": [
     "teonet",
