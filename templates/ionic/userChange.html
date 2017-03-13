@@ -1,0 +1,39 @@
+<ion-view title="Change password" id="change">
+  <ion-content padding="true" class="has-header">
+    <form id="signup-form3" class="list" ng-submit="changeUserpassword(user)()">
+      <ion-list id="signup-list6">
+        
+        <label class="item item-input" id="signup-input8">
+          <span class="input-label">Your current password</span>
+          <input type="password" placeholder="Password" ng-model="user.password">
+        </label>
+          
+        <label class="item item-input" id="signup-input8">
+          <span class="input-label">Your new password</span>
+          <input type="password" placeholder="Password" ng-model="user.password_new">
+        </label>
+          
+        <label class="item item-input" id="signup-input8">
+          <span class="input-label">Repeat new password</span>
+          <input type="password" placeholder="Password" ng-model="user.password_new_2">
+        </label>
+          
+      </ion-list>
+      <button id="signup-button4" class="button button-stable  button-block">Change</button>
+      
+      <div class="form-group auth-error" ng-show="authErrorF">
+        <div class="bar bar-assertive text-uppercase">
+            {{ authErrorTxt }}    
+        </div>    
+      </div>
+
+      <div class="form-group auth-error" ng-show="authInfoF">
+        <div class="bar bar-calm">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="authInfoSplash"></i>
+            {{ authInfoTxt }}    
+        </div>    
+      </div>
+      
+    </form>
+  </ion-content>
+</ion-view>

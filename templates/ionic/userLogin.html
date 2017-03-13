@@ -1,0 +1,35 @@
+<ion-view title="Login" id="login">
+  <ion-content padding="true" class="has-header">
+    <form id="login-form1" class="list" ng-submit="login()">
+      <ion-list id="login-list4">
+        <label class="item item-input" id="login-input1">
+          <span class="input-label">Username</span>
+          <input type="email" ng-model="user.email" placeholder="E-Mail">
+        </label>
+        <label class="item item-input" id="login-input2">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="user.password">
+        </label>
+        <ion-checkbox id="login-checkbox1" ng-model="user.rememberMe">remember me</ion-checkbox>
+      </ion-list>
+      <div class="spacer" style="height: 40px;"></div>
+      <button id="login-button1" type="submit" class="button button-stable  button-block">Log in</button>
+      <a href="#/singup" id="login-button2" class="button button-positive  button-block button-clear">Or create an account</a>
+      <a href="#/change" id="login-button3" class="button button-positive  button-block button-clear">Change password</a>
+      
+      <div class="form-group auth-error" ng-show="authErrorF">
+        <div class="bar bar-assertive text-uppercase">
+            {{ authErrorTxt }}    
+        </div>    
+      </div>
+
+      <div class="form-group auth-error" ng-show="authInfoF">
+        <div class="bar bar-calm">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="authInfoSplash"></i>
+            {{ authInfoTxt }}    
+        </div>    
+      </div>
+      
+    </form>
+  </ion-content>
+</ion-view>

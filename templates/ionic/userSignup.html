@@ -1,0 +1,40 @@
+<ion-view title="Signup" id="signup">
+  <ion-content padding="true" class="has-header">
+    <form id="signup-form3" class="list" ng-submit="register()">
+      <ion-list id="signup-list6">
+        <label class="item item-input" id="signup-input6">
+          <span class="input-label">Name</span>
+          <input type="text" placeholder="Name" ng-model="$parent.user_name">
+        </label>
+        <label class="item item-input" id="signup-input7">
+          <span class="input-label">Username</span>
+          <input type="email" placeholder="E-Mail" ng-model="$parent.email">
+        </label>
+        <label class="item item-input" id="signup-input8">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="$parent.password">
+        </label>
+        <label class="item item-input" id="signup-input8">
+          <span class="input-label">Repeat password</span>
+          <input type="password" placeholder="Password" ng-model="$parent.password2">
+        </label>
+        <ion-checkbox id="login-checkbox1" ng-model="acceptTerm">Accept Terms & Conditions</ion-checkbox>
+      </ion-list>
+      <button id="signup-button4" class="button button-stable  button-block">Sign up</button>
+      
+      <div class="form-group auth-error" ng-show="authErrorF">
+        <div class="bar bar-assertive text-uppercase">
+            {{ authErrorTxt }}    
+        </div>    
+      </div>
+
+      <div class="form-group auth-error" ng-show="authInfoF">
+        <div class="bar bar-calm">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" ng-show="authInfoSplash"></i>
+            {{ authInfoTxt }}    
+        </div>    
+      </div>
+      
+    </form>
+  </ion-content>
+</ion-view>
