@@ -261,6 +261,42 @@ angular.module('app.services.Teocli', [])
         ar[_onother] = [];
         ar[_onecho] = [];
     }
+    
+    // check if an element exists in array using a comparer function
+    // comparer : function(currentElement)
+    Array.prototype.inArray = function(comparer, exists_cb) {
+        var retval = false;
+        for(var i=0; i < this.length; i++) {
+            if(comparer(this[i])) {
+                if(typeof exists_cb === 'function') exists_cb(this[i]);
+                retval = true;
+            }
+        }
+        return retval;
+    };
+
+    // adds an element to the array if it does not already exist using a comparer
+    // function
+    Array.prototype.pushIfNotExist = function(element, comparer, done_cb, exists_cb) {
+        //console.log("pushIfNotExist", element);
+        if(!this.inArray(comparer, exists_cb)) {
+            this.push(element);
+            if(typeof done_cb === 'function')
+                done_cb(element);
+        }
+    };
+
+    Array.prototype.doIfNotExist = function(element, comparer, do_cb) {
+        if(!this.inArray(comparer)) {
+            if(typeof do_cb === 'function')
+                do_cb(element);
+        }
+    };
+    
+    String.prototype.startsWith = function(needle)
+    {
+        return(this.indexOf(needle) === 0);
+    };    
 
     return {
 
