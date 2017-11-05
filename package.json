@@ -1,6 +1,6 @@
 {
   "name": "teocli",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Javascript (or node) Teonet client",
   "main": "teocli.js",
   "directories": {
