@@ -117,10 +117,10 @@ Teocli.prototype.send = function (data) {
  * @param {string} to Peer name or L0 webserver if empty string
  * @param {string} method HTTP request method 'POST' or 'GET'
  * @param {string} url Part of authentication url: register-client, register, login, refresh
- * @param {type} data Authentication data rquered by URL
+ * @param {string} data Authentication data rquered by URL
  * @param {string} headers Basic authentication header or emty string if not rquered
- * @param {type} timeout Result timeout
- * @param {type} callback Result callback function
+ * @param {number} timeout Result timeout
+ * @param {any} callback Result callback function
  * @returns {undefined}
  */
 Teocli.prototype.auth = function (to, method, url, data, headers, timeout, callback) {
