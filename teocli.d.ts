@@ -1,4 +1,4 @@
-/* 
+/** 
  * Typescript Teocli class definition
  */
 

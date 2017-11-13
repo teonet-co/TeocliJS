@@ -1,8 +1,9 @@
-/* 
+/** 
  * Typescript TeocliCrypt class definition
  */
+export declare class TeocliCrypto {
 
-export default class TeocliCrypto {
+    constructor(cryptojs: any);
 
     /**
      * Decrypt text with CryptoJS AES

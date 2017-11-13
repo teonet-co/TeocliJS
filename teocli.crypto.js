@@ -24,32 +24,40 @@
 
 /* global CryptoJS */
 
-function TeocliCrypto() {
+var TeocliCrypto = (function () {
+    
+  var CryptoJS;
+  
+  function TeocliCrypto(cryptojs) { 
+      CryptoJS = cryptojs;
+  }
+    
+  TeocliCrypto.prototype.decrypt = function (text, secret) {
 
-    return {
+    var ciphertext = CryptoJS.enc.Hex.parse(text); // text in hex
+    var salt = CryptoJS.lib.WordArray.create(0); // empty array
+    var decrypted = CryptoJS.AES.decrypt({ciphertext: ciphertext, salt: salt}, secret);
 
-        decript: function (text, secret) {
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  };
 
-            var ciphertext = CryptoJS.enc.Hex.parse(text); // text in hex
-            var salt = CryptoJS.lib.WordArray.create(0); // empty array
-            var decrypted = CryptoJS.AES.decrypt({ciphertext: ciphertext, salt: salt}, secret);
+  TeocliCrypto.prototype.encrypt = function (data, secret) {
 
-            return decrypted.toString(CryptoJS.enc.Utf8);
-        },
+    var text = JSON.stringify(data);
 
-        encrypt: function (data, secret) {
+    var salt = CryptoJS.lib.WordArray.create(0); // empty array
+    var params = CryptoJS.kdf.OpenSSL.execute(secret, 256 / 32, 128 / 32, salt);
+    var encrypted = CryptoJS.AES.encrypt(text, params.key, {iv: params.iv});
 
-            var text = JSON.stringify(data);
+    return {data: encrypted.ciphertext.toString()};
+  };
 
-            var salt = CryptoJS.lib.WordArray.create(0); // empty array
-            var params = CryptoJS.kdf.OpenSSL.execute(secret, 256 / 32, 128 / 32, salt);
-            var encrypted = CryptoJS.AES.encrypt(text, params.key, {iv: params.iv});
+  TeocliCrypto.prototype.hash = function (text) {
+    return CryptoJS.SHA512(text).toString();
+  };
 
-            return {data: encrypted.ciphertext.toString()};
-        },
+  return TeocliCrypto;
+  
+}());
+export { TeocliCrypto };
 
-        hash: function (text) {
-            CryptoJS.SHA512(text).toString();
-        }
-    };
-};
