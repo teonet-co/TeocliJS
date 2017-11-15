@@ -34,7 +34,7 @@ function Teocli(ws) {
     teocli.ws = ws;
 
     teocli.ws.onopen = function (ev) {
-        console.log("ws.onopen");
+        console.debug("ws.onopen");
         if (typeof teocli.onopen === 'function') {
             teocli.onopen(ev);
         }
@@ -289,7 +289,7 @@ Teocli.prototype.process = function (data) {
     if (p && p.hasOwnProperty('cmd') && p.hasOwnProperty('from') &&
         p.hasOwnProperty('data')) {
 
-        console.log("Teocli.process", p);
+        console.debug("Teocli.process", p);
 
         // Check received commands
         //

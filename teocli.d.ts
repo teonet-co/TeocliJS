@@ -6,7 +6,6 @@ export default class Teocli {
 
     CMD: any;
     ws: WebSocket;
-    client_name: string;
 
     constructor(ws: WebSocket);
 
