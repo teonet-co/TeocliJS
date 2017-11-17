@@ -32,4 +32,12 @@ export declare class TeocliCrypto {
      * @return {string} Hash of input string
      */
     hash(text: string): string;
+    
+    /**
+     * Get hash of string with MD5
+     * 
+     * @param {string} text Input text
+     * @return {string} Hash of input string
+     */
+    MD5(text: string): any;
 }

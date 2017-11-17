@@ -55,6 +55,10 @@ var TeocliCrypto = (function () {
   TeocliCrypto.prototype.hash = function (text) {
     return CryptoJS.SHA512(text).toString();
   };
+  
+  TeocliCrypto.prototype.MD5 = function (text) {
+    return CryptoJS.MD5(text);
+  };
 
   return TeocliCrypto;
   
