@@ -34,6 +34,14 @@ export declare class TeocliCrypto {
     hash(text: string): string;
     
     /**
+     * Get hash of string with CryptoJS SHA1
+     * 
+     * @param {string} text Input text
+     * @return {string} Hash of input string
+     */
+    hash_short(text: string): string;
+    
+    /**
      * Get hash of string with MD5
      * 
      * @param {string} text Input text
