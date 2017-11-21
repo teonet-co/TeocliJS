@@ -1,4 +1,4 @@
-/** 
+/**
  * Typescript Teocli class definition
  */
 
@@ -12,17 +12,19 @@ export default class Teocli {
     onopen(ev: any): void;
     onclose(ev: any): void;
     onerror(ev: any): void;
-    onother(err: any, data: any): number;    
+    onother(err: any, data: any): number;
     onecho(err: any, data: any): number;
     onclients(err: any, data: any): number;
+    onrtc(err: any, data: any): number;
 
+    IsJsonString(data: string): any;
     process(data:any): number;
-    
+
     login(client_name: string): void;
     echo(to: string, msg: string): void;
     clients(to: string): void;
     send(data: any): boolean;
-    
+
     /**
      * Send authentication request to peer (or L0 server)
      *
@@ -34,6 +36,6 @@ export default class Teocli {
      * @param {number} timeout Result timeout
      * @param {any} callback Result callback function
      */
-    auth(to: string, method: string, url:string, data: string, headers: string, 
-         timeout: number, callback: any): void;    
+    auth(to: string, method: string, url:string, data: string, headers: string,
+         timeout: number, callback: any): void;
 }

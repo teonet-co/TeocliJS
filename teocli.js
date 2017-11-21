@@ -87,7 +87,7 @@ Teocli.prototype.CMD = {
     
     USER: 129,              ///< #129..191 User command
         
-    LAST:255                ///< #255 Last command Reserved for future use
+    LAST:255                ///< #255 Last command Reserved for RTC
 };
 
 /**
@@ -351,7 +351,15 @@ Teocli.prototype.process = function (data) {
             }
             processed = 1;
         }
-
+        
+        // Got RTC command
+        else if (p.cmd === this.CMD.LAST) {
+            // Exequte clients callback
+            if (typeof this.onrtc === 'function') {
+                this.onrtc(null, p);
+            }
+            processed = 1;
+        }
 
         // Got some other command
         else {
