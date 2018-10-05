@@ -15,6 +15,7 @@ export default class Teocli {
     onother(err: any, data: any): number;
     onecho(err: any, data: any): number;
     onclients(err: any, data: any): number;
+    onpeers(err: any, data: any): number;
     onrtc(err: any, data: any): number;
 
     IsJsonString(data: string): any;
@@ -23,6 +24,7 @@ export default class Teocli {
     login(client_name: string): void;
     echo(to: string, msg: string): void;
     clients(to: string): void;
+    peers(to: string): void;
     send(data: any): boolean;
 
     /**
